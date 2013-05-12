@@ -11,13 +11,13 @@ $total = 0;
 </head>
 <body>
 <h1>File list</h1>
-<table>
+<table border="1">
 <tr>
 <td><b>File</b></td>
-<td><b>Downloaded</b></td>
+<td><b>Downloads</b></td>
 </tr>
 <?php foreach($keys as $k):
-    $filename = preg_replace('/^:/g', '', $k);
+    $filename = str_replace('flvmeta:downloads:', '', $k);
     $downloads = $redis->get($k);
     $total += intval($downloads);
 ?>
