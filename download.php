@@ -8,7 +8,7 @@ if (strpos($file, '..') !== FALSE || !file_exists("./files/$file")) {
     die();
 }
 
-header('HTTP/1.0 302 Found');
+header('HTTP/1.0 303 See Other');
 header("Location: http://$_SERVER[SERVER_NAME]/files/$file");
 
 $redis = new Redis();
