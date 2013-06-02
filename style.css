@@ -9,6 +9,7 @@ body {
 	margin-top: 0;
 	font-size: 12px;
     background-color: #3a4754;
+    background-image: url('bg.png');
 }
 
 div#main {
