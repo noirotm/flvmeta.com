@@ -18,19 +18,8 @@ function showEmailLink(user, domain, linkText) {
     <h1 id="title">FLVMeta -  FLV Metadata Editor</h1>
     <h2>About</h2>
     <p>flvmeta is a command-line utility aimed at manipulating Adobe(tm) Flash Video files (FLV).</p>
-    <p>It has the ability to compute and inject a variety of values in the <em>onMetaData</em> event tag, including keyframe indices used by most video players to allow random-access seeking, notably for HTTP pseudo-streamed files via a server-side module, by having the client send the file offset looked up for the nearest desired keyframe.<br />
-    Tools such as flvmeta must be used in the case the initial encoding process is unable to inject those metadata.</p>
-    <p>It can also optionnally inject the <em>onLastSecond</em> event, used to signal the end of playback, for example to revert the player software to a 'stopped' state.</p>
-    <p>flvmeta also has the ability to dump metadata and full file information to standard output, in a variety of textual output formats, including XML, YAML, and JSON.</p>
-    <p>Finally, the program can analyze FLV files to detect potential problems and errors, and generate a textual report in a raw format, or in XML. It has the ability to detect more than a hundred problems, going from harmless to potentially unplayable, using a few real world encountered issues.</p>
-    <p>flvmeta can operate on arbitrarily large files, and can handle FLV files using extended (32-bit) timestamps. It can guess video frame dimensions for all known video codecs supported by the official FLV specification.</p>
-    <p>Its memory usage remains minimal, as it uses a two-pass reading algorithm which permits the computation of all necessary tags without loading anything more than the file's tags headers in memory.</p>
-    <h2>Documentation</h2>
-    <p>Please read the   <a href="flvmeta.1.html">man page</a>.</p>
-    <h2>License</h2>
-    <p>FLVMeta is distributed under the terms of the <a href="http://www.gnu.org/licenses/gpl-2.0.html#SEC1">GNU General Public License v2.0</a>.</p>
     <h2>Downloads</h2>
-    <table>
+  <table>
       <tr>
         <td>Source code archive</td>
         <td><a href="download.php?file=flvmeta-1.1.1.tar.gz">flvmeta-1.1.1.tar.gz</a></td>
@@ -44,8 +33,35 @@ function showEmailLink(user, domain, linkText) {
         <td><a href="download.php?file=flvmeta-1.1.1-win64.zip">flvmeta-1.1.1-win64.zip</a></td>
       </tr>
     </table>
-    <p>A complete <a href="https://raw.github.com/noirotm/flvmeta/master/NEWS">Changelog</a> can be found on Github.</p>
-    <h2>Contributing</h2>
+  <p>A complete <a href="https://raw.github.com/noirotm/flvmeta/maintenance/1.1.x/NEWS">Changelog</a><a href="https://raw.github.com/noirotm/flvmeta/master/NEWS"></a> can be found on Github.</p>
+    <h2>Features</h2>
+    <h3>Metadata injection</h3>
+    <p>It has the ability to compute and inject a variety of values in the <em>onMetaData</em> event tag, including keyframe indices used by most video players to allow random-access seeking, notably for HTTP pseudo-streamed files via a server-side module, by having the client send the file offset looked up for the nearest desired keyframe.<br />
+    Tools such as flvmeta must be used in the case the initial encoding process is unable to inject those metadata.</p>
+    <p>It can also optionnally inject the <em>onLastSecond</em> event, used to signal the end of playback, for example to revert the player software to a 'stopped' state.</p>
+    <h3>File information and metadata dumping</h3>
+    <p>flvmeta also has the ability to dump metadata and full file information to standard output, in a variety of textual output formats, including XML, YAML, and JSON.</p>
+    <h3>File validity checking</h3>
+    <p>Finally, the program can analyze FLV files to detect potential problems and errors, and generate a textual report in a raw format, or in XML. It has the ability to detect more than a hundred problems, going from harmless to potentially unplayable, using  real world encountered issues.</p>
+    <h2>Performance</h2>
+    <p>flvmeta can operate on arbitrarily large files, and can handle FLV files using extended (32-bit) timestamps. It can guess video frame dimensions for all known video codecs supported by the official FLV specification.</p>
+    <p>Its memory usage remains minimal, as it uses a two-pass reading algorithm which permits the computation of all necessary tags without loading anything more than the file's tags headers in memory.</p>
+    <h2>Supported platforms</h2>
+    <p>FLVMeta has been successfully compiled and tested on the following platforms:</p>
+    <ul>
+      <li>GNU/Linux (<a href="http://packages.ubuntu.com/fr/raring/flvmeta">Ubuntu</a> package, <a href="http://packages.debian.org/sid/flvmeta">Debian</a> package, <a href="https://aur.archlinux.org/packages/flvmeta/">Archlinux</a> package)</li>
+      <li>Windows</li>
+      <li>FreeBSD (<a href="http://svnweb.freebsd.org/ports/head/multimedia/flvmeta/">port</a> available)</li>
+      <li>NetBSD (<a href="http://pkgsrc.se/wip/flvmeta">package</a> available)</li>
+      <li>Mac OSX</li>
+      <li>Solaris</li>
+    </ul>
+    <p>Generally, this program should  compile cleanly and run on any 32-bit or 64-bit platform provided there is a working C compiler with a reasonably complete implementation of the C standard library.</p>
+<h2>Documentation</h2>
+    <p>Please read the   <a href="flvmeta.1.html">man page</a>.</p>
+    <h2>License</h2>
+    <p>FLVMeta is distributed under the terms of the <a href="http://www.gnu.org/licenses/gpl-2.0.html#SEC1">GNU General Public License v2.0</a>.</p>
+  <h2>Contributing</h2>
     <p>Development is done at <a href="https://github.com/noirotm/flvmeta">Github</a>. Please feel free to clone the flvmeta repository and hack the source code as you want. Submitted issues and pull requests are carefully reviewed.</p>
     <p>The author can be contacted directly either by <script type="text/javascript">
   showEmailLink("marc.noirot","gmail.com","e-mail");
