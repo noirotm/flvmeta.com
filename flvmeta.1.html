@@ -11,7 +11,7 @@
 <div id="main">
 <div id="header">
 <h1 class="title">flvmeta(1) flvmeta user manual</h1>
-<h3 class="date">April 2012</h3>
+<h3 class="date">August 2013</h3>
 </div>
 <h1 id="name">NAME</h1>
 <p>flvmeta - manipulate or extract metadata in Adobe Flash Video files</p>
@@ -22,7 +22,7 @@
 <p>It possesses the ability to compute and inject a variety of values in the <em>onMetaData</em> event tag, including keyframe indices used by most video players to allow random-access seeking, notably for HTTP pseudo-streamed files via a server-side module, by having the client send the file offset looked up for the nearest desired keyframe.<br />Tools such as <strong>flvmeta</strong> must be used in the case the initial encoding process is unable to inject those metadata.</p>
 <p>It can also optionnally inject the <em>onLastSecond</em> event, used to signal the end of playback, for example to revert the player software to a 'stopped' state.</p>
 <p><strong>flvmeta</strong> also has the ability to dump metadata and full file information to standard output, in a variety of textual output formats, including XML, YAML, and JSON.</p>
-<p>Finally, the program can analyze FLV files to detect potential problems and errors, and generate a textual report in a raw format, or in XML. It has the ability to detect more than a hundred problems, going from harmless to potentially unplayable, using a few real world encountered issues.</p>
+<p>Finally, the program can analyze FLV files to detect potential problems and errors, and generate a textual report as a raw format, as JSON, or as XML. It has the ability to detect more than a hundred problems, going from harmless to potentially unplayable, using a few real world encountered issues.</p>
 <p><strong>flvmeta</strong> can operate on arbitrarily large files, and can handle FLV files using extended (32-bit) timestamps. It can guess video frame dimensions for all known video codecs supported by the official FLV specification.</p>
 <p>Its memory usage remains minimal, as it uses a two-pass reading algorithm which permits the computation of all necessary tags without loading anything more than the file's tags headers in memory.</p>
 <h1 id="commands">COMMANDS</h1>
@@ -37,7 +37,7 @@
 <p>Dump a textual representation of the whole contents of <em>INPUT_FILE</em> to standard output. The default format is XML, unless specified otherwise.</p>
 <h2 id="c---check">-C, --check</h2>
 <p>Print a report to standard output listing warnings and errors detected in <em>INPUT_FILE</em>, as well as potential incompatibilities, and information about the codecs used in the file. The exit code will be set to a non-zero value if there is at least one error in the file.</p>
-<p>The output format can either be plain text or XML using the <strong>--xml</strong> option. It can also be disabled altogether using the <strong>--quiet</strong> option if you are only interested in the exit status.</p>
+<p>The output format can either be plain text, XML using the <strong>--xml</strong> option, or JSON using the <strong>--json</strong> option. It can also be disabled altogether using the <strong>--quiet</strong> option if you are only interested in the exit status.</p>
 <p>Messages are divided into four specific levels of increasing importance:</p>
 <ul>
 <li><strong>info</strong>: informational messages that do not pertain to the file validity<br /></li>
@@ -110,6 +110,9 @@
 </dd>
 <dt>-x, --xml</dt>
 <dd><p>generate an XML report instead of the default 'compiler-friendly' text</p>
+</dd>
+<dt>-j, --json</dt>
+<dd><p>generate a JSON report instead of the default 'compiler-friendly' text</p>
 </dd>
 </dl>
 <h2 id="update">UPDATE</h2>
