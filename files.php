@@ -55,6 +55,7 @@ $releases = $gh->api('repo')->releases()->all('noirotm', 'flvmeta');
     <?php endforeach; ?>
     <tr>
         <td><i>Total</i></td>
+        <td>&nbsp;</td>
         <td><?= $total ?></td>
     </tr>
 
