@@ -1,0 +1,15 @@
+{
+    "name": "flvmeta.com/website",
+    "description": "FLVMeta official homepage",
+    "minimum-stability": "stable",
+    "license": "GPLv2",
+    "authors": [
+        {
+            "name": "Marc Noirot",
+            "email": "marc.noirot@gmail.com"
+        }
+    ],
+    "require": {
+        "knplabs/github-api": "1.2"
+    }
+}
