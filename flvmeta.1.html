@@ -33,7 +33,7 @@ Tools such as <strong>flvmeta</strong> must be used in the case the initial enco
 <p>Its memory usage remains minimal, as it uses a two-pass reading algorithm which permits the computation of all necessary tags without loading anything more than the file's tags headers in memory.</p>
 <h1 id="commands">COMMANDS</h1>
 <p>Only one command can be specified for an invocation of <strong>flvmeta</strong>. The chosen command determines the mode of execution of the program.</p>
-<p>By default, if no command is specified, <strong>flvmeta</strong> will implicitely choose the command to use according to the presence of <em>INPUT_FILE</em> and <em>OUTPUT_FILE</em>.</p>
+<p>By default, if no command is specified, <strong>flvmeta</strong> will implicitly choose the command to use according to the presence of <em>INPUT_FILE</em> and <em>OUTPUT_FILE</em>.</p>
 <p>If only <em>INPUT_FILE</em> is present, the <strong>--dump</strong> command will be executed.</p>
 <p>If both <em>INPUT_FILE</em> and <em>OUTPUT_FILE</em> are present, the <strong>--update</strong> command will be executed.</p>
 <p>Here is a list of the supported commands:</p>
@@ -201,18 +201,15 @@ It is also possible to specify another event via the <strong>--event</strong> op
 <ul>
 <li><strong>0</strong> flvmeta exited without error<br />
 </li>
-<li><strong>1</strong> an error occured when trying to open an input file<br />
-</li>
+<li><strong>1</strong> an error occurred when trying to open an input file</li>
 <li><strong>2</strong> the input file was not recognized as an FLV file<br />
 </li>
 <li><strong>3</strong> an end-of-file condition was encountered unexpectedly<br />
 </li>
-<li><strong>4</strong> a memory allocation error occured during the run of the program<br />
-</li>
+<li><strong>4</strong> a memory allocation error occurred during the run of the program</li>
 <li><strong>5</strong> an empty tag was encountered in an input file<br />
 </li>
-<li><strong>6</strong> an error occured when trying to open an output file<br />
-</li>
+<li><strong>6</strong> an error occurred when trying to open an output file</li>
 <li><strong>7</strong> an invalid tag was encountered in an input file<br />
 </li>
 <li><strong>8</strong> an error was encountered while writing an output file<br />
