@@ -1,0 +1,362 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="" />
+  <title>flvmeta(1) flvmeta user manual</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div id="main">
+<div id="header">
+<h1 class="title">flvmeta(1) flvmeta user manual</h1>
+<h2 class="author"></h2>
+<h3 class="date">January 2014</h3>
+</div>
+<h1 id="name">NAME</h1>
+<p>flvmeta - manipulate or extract metadata in Adobe Flash Video
+files</p>
+<h1 id="synopsis">SYNOPSIS</h1>
+<p><strong>flvmeta</strong> <em>INPUT_FILE</em><br />
+<strong>flvmeta</strong> <em>INPUT_FILE</em> <em>OUTPUT_FILE</em><br />
+<strong>flvmeta</strong> <code>-D</code>|<code>--dump</code>
+[<em>options</em>] <em>INPUT_FILE</em><br />
+<strong>flvmeta</strong> <code>-F</code>|<code>--full-dump</code>
+[<em>options</em>] <em>INPUT_FILE</em><br />
+<strong>flvmeta</strong> <code>-C</code>|<code>--check</code>
+[<em>options</em>] <em>INPUT_FILE</em><br />
+<strong>flvmeta</strong> <code>-U</code>|<code>--update</code>
+[<em>options</em>] <em>INPUT_FILE</em> [<em>OUTPUT_FILE</em>]</p>
+<h1 id="description">DESCRIPTION</h1>
+<p><strong>flvmeta</strong> is a command-line utility aimed at
+manipulating Adobe(tm) Flash Video files (FLV), through several
+commands, only one of which can be used for each invocation of the
+program.</p>
+<p>It possesses the ability to compute and inject a variety of values in
+the <em>onMetaData</em> event tag, including keyframe indices used by
+most video players to allow random-access seeking, notably for HTTP
+pseudo-streamed files via a server-side module, by having the client
+send the file offset looked up for the nearest desired keyframe.<br />
+Tools such as <strong>flvmeta</strong> must be used in the case the
+initial encoding process is unable to inject those metadata.</p>
+<p>It can also optionnally inject the <em>onLastSecond</em> event, used
+to signal the end of playback, for example to revert the player software
+to a ‘stopped’ state.</p>
+<p><strong>flvmeta</strong> also has the ability to dump metadata and
+full file information to standard output, in a variety of textual output
+formats, including XML, YAML, and JSON.</p>
+<p>Finally, the program can analyze FLV files to detect potential
+problems and errors, and generate a textual report as a raw format, as
+JSON, or as XML. It has the ability to detect more than a hundred
+problems, going from harmless to potentially unplayable, using a few
+real world encountered issues.</p>
+<p><strong>flvmeta</strong> can operate on arbitrarily large files, and
+can handle FLV files using extended (32-bit) timestamps. It can guess
+video frame dimensions for all known video codecs supported by the
+official FLV specification.</p>
+<p>Its memory usage remains minimal, as it uses a two-pass reading
+algorithm which permits the computation of all necessary tags without
+loading anything more than the file’s tags headers in memory.</p>
+<h1 id="commands">COMMANDS</h1>
+<p>Only one command can be specified for an invocation of
+<strong>flvmeta</strong>. The chosen command determines the mode of
+execution of the program.</p>
+<p>By default, if no command is specified, <strong>flvmeta</strong> will
+implicitly choose the command to use according to the presence of
+<em>INPUT_FILE</em> and <em>OUTPUT_FILE</em>.</p>
+<p>If only <em>INPUT_FILE</em> is present, the <strong>--dump</strong>
+command will be executed.</p>
+<p>If both <em>INPUT_FILE</em> and <em>OUTPUT_FILE</em> are present, the
+<strong>--update</strong> command will be executed.</p>
+<p>Here is a list of the supported commands:</p>
+<h2 id="d---dump">-D, --dump</h2>
+<p>Dump a textual representation of the first <em>onMetaData</em> tag
+found in <em>INPUT_FILE</em> to standard output. The default format is
+XML, unless specified otherwise.<br />
+It is also possible to specify another event via the
+<strong>--event</strong> option, such as <em>onLastSecond</em>.</p>
+<h2 id="f---full-dump">-F, --full-dump</h2>
+<p>Dump a textual representation of the whole contents of
+<em>INPUT_FILE</em> to standard output. The default format is XML,
+unless specified otherwise.</p>
+<h2 id="c---check">-C, --check</h2>
+<p>Print a report to standard output listing warnings and errors
+detected in <em>INPUT_FILE</em>, as well as potential incompatibilities,
+and information about the codecs used in the file. The exit code will be
+set to a non-zero value if there is at least one error in the file.</p>
+<p>The output format can either be plain text, XML using the
+<strong>--xml</strong> option, or JSON using the <strong>--json</strong>
+option. It can also be disabled altogether using the
+<strong>--quiet</strong> option if you are only interested in the exit
+status.</p>
+<p>Messages are divided into four specific levels of increasing
+importance:</p>
+<ul>
+<li><strong>info</strong>: informational messages that do not pertain to
+the file validity<br />
+</li>
+<li><strong>warning</strong>: messages that inform of oddities to the
+flv format but that might not hamper file reading or playability, this
+is the default level<br />
+</li>
+<li><strong>error</strong>: messages that inform of errors that might
+render the file impossible to play or stream correctly<br />
+</li>
+<li><strong>fatal</strong>: messages that inform of errors that make
+further file reading impossible therefore ending parsing completely</li>
+</ul>
+<p>The <strong>--level</strong> option allows <strong>flvmeta</strong>
+to limit the display of messages to a minimum level among those, for
+example if the user is only interested in error messages and above.</p>
+<p>Each message or message template presented to the user is identified
+by a specific code of the following format:</p>
+<p><code>[level][topic][id]</code></p>
+<ul>
+<li><strong>level</strong> is an upper-case letter that can be either I,
+W, E, F according to the aforementioned message levels<br />
+</li>
+<li><strong>topic</strong> is a two-digit integer representing the
+general topic of the message<br />
+</li>
+<li><strong>id</strong> is a unique three-digit identifier for the
+message, or message template if parameterized</li>
+</ul>
+<p>Messages can be related to the following topics :</p>
+<ul>
+<li><strong>10</strong> general flv file format<br />
+</li>
+<li><strong>11</strong> file header<br />
+</li>
+<li><strong>12</strong> previous tag size<br />
+</li>
+<li><strong>20</strong> tag format<br />
+</li>
+<li><strong>30</strong> tag types<br />
+</li>
+<li><strong>40</strong> timestamps<br />
+</li>
+<li><strong>50</strong> audio data<br />
+</li>
+<li><strong>51</strong> audio codecs<br />
+</li>
+<li><strong>60</strong> video data<br />
+</li>
+<li><strong>61</strong> video codecs<br />
+</li>
+<li><strong>70</strong> metadata<br />
+</li>
+<li><strong>80</strong> AMF data<br />
+</li>
+<li><strong>81</strong> keyframes<br />
+</li>
+<li><strong>82</strong> cue points</li>
+</ul>
+<p>For example, <W51050> represents a Warning in topic 51 with the id
+050, which represents a warning message related to audio codecs, in that
+case to signal that an audio tag has an unknown codec.</p>
+<h2 id="u---update">-U, --update</h2>
+<p>Update the given input file by inserting a computed
+<em>onMetaData</em> tag. If <em>OUTPUT_FILE</em> is specified, it will
+be created or overwritten instead and the input file will not be
+modified. If the original file is to be updated, a temporary file will
+be created in the default temp directory of the platform, and it will be
+copied over the original file at the end of the operation. This is due
+to the fact that the output file is written while the original file is
+being read due to the two-pass method.</p>
+<p>The computed metadata contains among other data full keyframe
+information, in order to allow HTTP pseudo-streaming and random-access
+seeking in the file.</p>
+<p>By default, an <em>onLastSecond</em> tag will be inserted, unless the
+<strong>--no-last-second</strong> option is specified.</p>
+<p>Normally overwritten by the update process, the existing metadata
+found in the input file can be preserved by the
+<strong>--preserve</strong> option.</p>
+<p>It is also possible to insert custom string values with the
+<strong>--add</strong> option, which can be specified multiple
+times.</p>
+<p>By default, the update operation is performed without output, unless
+the <strong>--verbose</strong> option is specified, or the
+<strong>--print-metadata</strong> is used to print the newly written
+metadata to the standard output.</p>
+<h1 id="options">OPTIONS</h1>
+<h2 id="dump">DUMP</h2>
+<dl>
+<dt>-d <em>FORMAT</em>, --dump-format=<em>FORMAT</em></dt>
+<dd>
+specify dump format where <em>FORMAT</em> is ‘xml’ (default), ‘json’,
+‘raw’, or ‘yaml’. Also applicable for the <strong>--full-dump</strong>
+command.
+</dd>
+<dt>-j, --json</dt>
+<dd>
+equivalent to <strong>--dump-format=json</strong>
+</dd>
+<dt>-r, --raw</dt>
+<dd>
+equivalent to <strong>--dump-format=raw</strong>
+</dd>
+<dt>-x, --xml</dt>
+<dd>
+equivalent to <strong>--dump-format=xml</strong>
+</dd>
+<dt>-y, --yaml</dt>
+<dd>
+equivalent to <strong>--dump-format=yaml</strong>
+</dd>
+<dt>-e <em>EVENT</em>, --event=<em>EVENT</em></dt>
+<dd>
+specify the event to dump instead of <em>onMetaData</em>, for example
+<em>onLastSecond</em>
+</dd>
+</dl>
+<h2 id="check">CHECK</h2>
+<dl>
+<dt>-l <em>LEVEL</em>, --level=<em>LEVEL</em></dt>
+<dd>
+print only messages where level is at least <em>LEVEL</em>. The levels
+are, by ascending importance, ‘info’, ‘warning’ (default), ‘error’, or
+‘fatal’.
+</dd>
+<dt>-q, --quiet</dt>
+<dd>
+do not print messages, only return the status code
+</dd>
+<dt>-x, --xml</dt>
+<dd>
+generate an XML report instead of the default ‘compiler-friendly’ text
+</dd>
+<dt>-j, --json</dt>
+<dd>
+generate a JSON report instead of the default ‘compiler-friendly’ text
+</dd>
+</dl>
+<h2 id="update">UPDATE</h2>
+<dl>
+<dt>-m, --print-metadata</dt>
+<dd>
+print metadata to stdout after update using the format specified by the
+<strong>--format</strong> option
+</dd>
+<dt>-a <em>NAME=VALUE</em>, --add=<em>NAME=VALUE</em></dt>
+<dd>
+add a metadata string value to the output file. The name/value pair will
+be appended at the end of the <em>onMetaData</em> tag.
+</dd>
+<dt>-s, --no-lastsecond</dt>
+<dd>
+do not create the <em>onLastSecond</em> tag
+</dd>
+<dt>-p, --preserve</dt>
+<dd>
+preserve input file existing <em>onMetadata</em> tags
+</dd>
+<dt>-f, --fix</dt>
+<dd>
+fix invalid tags from the input file
+</dd>
+<dt>-i, --ignore</dt>
+<dd>
+ignore invalid tags from the input file (the default behaviour is to
+stop the update process with an error)
+</dd>
+<dt>-t, --reset-timestamps</dt>
+<dd>
+reset timestamps so <em>OUTPUT_FILE</em> starts at zero. This has been
+added because some FLV files are produced by cutting bigger files, and
+the software doing the cutting does not resets the timestamps as
+required by the standard, which can cause playback issues.
+</dd>
+<dt>-k, –all-keyframes</dt>
+<dd>
+index all keyframe tags, including duplicate timestamps
+</dd>
+</dl>
+<h2 id="general">GENERAL</h2>
+<dl>
+<dt>-v, --verbose</dt>
+<dd>
+display informative messages
+</dd>
+<dt>-V, --version</dt>
+<dd>
+print version information and exit
+</dd>
+<dt>-h, --help</dt>
+<dd>
+display help on the program usage and exit
+</dd>
+</dl>
+<h1 id="formats">FORMATS</h1>
+<p>The various XML formats used by <strong>flvmeta</strong> are
+precisely described by the following XSD schemas:</p>
+<ul>
+<li>http://schemas.flvmeta.org/flv.xsd: describes the general
+organization of FLV files</li>
+<li>http://schemas.flvmeta.org/Amf0.xsd: describes an XML representation
+of the Adobe(TM) AMF0 serialization format</li>
+<li>http://schemas.flvmeta.org/report.xsd: describes the XML output
+format of the <strong>--check</strong> <strong>--xml</strong>
+command</li>
+</ul>
+<h1 id="examples">EXAMPLES</h1>
+<p><strong>flvmeta example.flv</strong></p>
+<p>Prints the onMetadata tag contents of example.flv as XML output.</p>
+<p><strong>flvmeta example.flv out.flv</strong></p>
+<p>Creates a file named out.flv containing updated metadata and an
+onLastSecond tag from the exemple.flv file.</p>
+<p><strong>flvmeta --check --xml --level=error example.flv</strong></p>
+<p>Checks the validity of the example.flv file and prints the error
+report to stdout in XML format, displaying only errors and fatal
+errors.</p>
+<p><strong>flvmeta --full-dump --yaml example.flv</strong></p>
+<p>Prints the full contents of example.flv as YAML format to stdout.</p>
+<p><strong>flvmeta --update --no-last-second --show-metadata --json
+example.flv</strong></p>
+<p>Performs an in-place update of example.flv by inserting computed
+onMetadata without an onLastSecond tag, and prints the newly inserted
+metadata on stdout as JSON.</p>
+<h1 id="exit-status">EXIT STATUS</h1>
+<ul>
+<li><strong>0</strong> flvmeta exited without error<br />
+</li>
+<li><strong>1</strong> an error occurred when trying to open an input
+file</li>
+<li><strong>2</strong> the input file was not recognized as an FLV
+file<br />
+</li>
+<li><strong>3</strong> an end-of-file condition was encountered
+unexpectedly<br />
+</li>
+<li><strong>4</strong> a memory allocation error occurred during the run
+of the program</li>
+<li><strong>5</strong> an empty tag was encountered in an input
+file<br />
+</li>
+<li><strong>6</strong> an error occurred when trying to open an output
+file</li>
+<li><strong>7</strong> an invalid tag was encountered in an input
+file<br />
+</li>
+<li><strong>8</strong> an error was encountered while writing an output
+file<br />
+</li>
+<li><strong>9</strong> the <strong>--check</strong> command reported an
+invalid file (one or more errors)</li>
+</ul>
+<h1 id="bugs">BUGS</h1>
+<p><strong>flvmeta</strong> does not support encrypted FLV files
+yet.</p>
+<h1 id="author">AUTHOR</h1>
+<p>Marc Noirot &lt;marc.noirot@gmail.com&gt;</p>
+<h1 id="copyright">COPYRIGHT</h1>
+<p>Copyright 2007-2016 Marc Noirot</p>
+<p>This is free software; see the source for copying conditions. There
+is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR
+PURPOSE.</p>
+<h1 id="contact">CONTACT</h1>
+<p>Please report bugs to https://github.com/noirotm/flvmeta/issues</p>
+</div>
+</body>
+</html>

@@ -315,4 +315,4 @@ PURPOSE.
 
 # CONTACT
 
-Please report bugs to \<flvmeta-discussion@googlegroups.com\>
+Please report bugs to https://github.com/noirotm/flvmeta/issues
